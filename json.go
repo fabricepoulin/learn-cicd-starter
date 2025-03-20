@@ -30,5 +30,17 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 		return
 	}
 	w.WriteHeader(code)
-	w.Write(dat)
+	n, err := w.Write(dat)
+	if err != nil {
+    // Handle the error appropriately
+    log.Printf("Error writing response: %v", err)
+    // Depending on your application, you might want to:
+    // - Return early
+    // - Set a specific status code
+    // - Log additional details
+	}
+
+	if n != len(dat) {
+    log.Printf("Warning: only wrote %d bytes out of %d", n, len(dat))
+	}
 }
